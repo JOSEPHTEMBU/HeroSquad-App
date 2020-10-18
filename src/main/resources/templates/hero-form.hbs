@@ -1,0 +1,25 @@
+{{#partial "title"}}New Hero{{/partial}}
+{{#partial "content"}}
+    <div class="container">
+        <form method="Post" action="/addhero">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <label for="power">Power</label>
+                <input type="text" class="form-control" id="power" name="power" placeholder="Power" required>
+            </div>
+            <div class="form-group">
+                <label for="weakness">Weakness</label>
+                <input type="text" class="form-control" id="weakness" name="weakness" placeholder="Weakness" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" name="age" placeholder="Age" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{{/partial}}
+{{> layout.hbs}}

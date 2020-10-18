@@ -1,0 +1,14 @@
+{{#if squad}}
+    {{#partial "title"}}{{squad.name}}{{/partial}}
+{{/if}}
+{{#partial "content"}}
+    {{#if squad}}
+        <div class="container">
+            <p>Name: {{squad.name}}</p>
+            <p>Cause: {{squad.cause}}</p>
+            <p>Max Size: {{squad.max_size}}</p>
+
+        </div>
+    {{/if}}
+{{/partial}}
+{{> layout.hbs}}

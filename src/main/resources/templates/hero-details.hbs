@@ -1,0 +1,14 @@
+{{#if hero}}
+    {{#partial "title"}}{{hero.name}}{{/partial}}
+{{/if}}
+{{#partial "content"}}
+    {{#if hero}}
+        <div class="container">
+            <p>Name: {{hero.name}}</p>
+            <p>Power: {{hero.power}}</p>
+            <p>Weakness: {{hero.weakness}}</p>
+            <p>Age: {{hero.age}}</p>
+        </div>
+    {{/if}}
+{{/partial}}
+{{> layout.hbs}}

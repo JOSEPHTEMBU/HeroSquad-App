@@ -1,0 +1,64 @@
+{{#partial "title"}}Heroes{{/partial}}
+{{#partial "content"}}
+
+    <div class="container-fluid">
+        <div class="row">
+            {{#if heroes}}
+                <div class="col-md-6">
+                    <h3>Heroes</h3>
+                    <table class="table table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+
+                            <th scope="col">Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each heroes}}
+                            <tr>
+                                <td>{{name}}</td>
+
+                                <td><a href="/heroes/{{id}}" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    <a href="/deleteallheroes" class="btn btn-danger">Delete All Heroes</a>
+                </div>
+            {{/if}}
+
+            {{#if squads}}
+                <div class="col-md-6">
+                    <h3>Squads</h3>
+                    <table class="table table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+
+                            <th scope="col">Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each squads}}
+                            <tr>
+                                <td>{{name}}</td>
+
+                                <td><a href="/squads/{{id}}" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    <a href="/deleteallsquads" class="btn btn-danger">Delete All Squads</a>
+                </div>
+            {{/if}}
+        </div>
+
+
+    </div>
+
+
+
+
+{{/partial}}
+{{> layout.hbs}}
