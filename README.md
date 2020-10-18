@@ -31,3 +31,11 @@ Maven
   
   
   Open the project folder with a java IDE or editor of your choice like NETBEANS or (IntelliJ recommended).
+
+# Built with
+Spark - framework
+
+ IntelliJ - IDEA
+ 
+ Java
+ 
