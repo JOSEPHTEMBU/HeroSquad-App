@@ -21,3 +21,13 @@ HandleBars
 PostgreSql
 
 Maven
+
+# How to Set Up
+
+
+  Clone or download the repository from GitHub.
+  
+  Extract the archive in the directory of your choice (if you downloaded it) eg Home, Desktop or Document
+  
+  
+  Open the project folder with a java IDE or editor of your choice like NETBEANS or (IntelliJ recommended).
