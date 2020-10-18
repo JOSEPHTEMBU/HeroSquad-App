@@ -1,7 +1,7 @@
 # HeroSquad-App
 
 
-
+A web application for creating and adding hero squads and heroes to squads
 
 # Author Name
 
