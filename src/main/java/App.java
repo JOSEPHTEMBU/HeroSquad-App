@@ -15,7 +15,7 @@ import static spark.Spark.*;
 public class App {
     public static void main(String[] args) {
 
-
+        staticFileLocation("/public");
         Connection conn;
 
         String connectionString = "jdbc:h2:~/HeroesSquad-App.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
@@ -103,6 +103,15 @@ public class App {
             return new ModelAndView(model, "squads.hbs");
         }, new HandlebarsTemplateEngine());
 
+        get("/favorite_photos", (req, res) ->
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<link rel='stylesheet'  href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>" +
+                        "</head>" +
+                        "<body>" +
+                        "<h1>Favorite Heroes Photos</h1>" +
+                        "<ul>" +
+                        "<li><img src='/images/kshna.jpg' alt='A photo of a hero.'/></li>" + "<li><img src='/images/photll.jpg' alt='A photo of heroes.'/></li>" + "</ul>" + "</body>" + "</html>" ); } }
 
-    }
-}
+
