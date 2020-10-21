@@ -62,5 +62,6 @@ public class Sql2oHeroDao implements HeroDao{
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }
+
     }
 }

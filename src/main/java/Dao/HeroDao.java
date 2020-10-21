@@ -13,4 +13,5 @@ public interface HeroDao {
     Hero getHeroById(int id);
 
     void deleteAllHeroes();
+
 }
