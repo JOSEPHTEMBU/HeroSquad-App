@@ -102,7 +102,13 @@ public class App {
             model.put("heroes", heroDAO.getAllHeroes());
             return new ModelAndView(model, "squads.hbs");
         }, new HandlebarsTemplateEngine());
-
+        get("/edithero/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            model.put("editHero", true);
+            model.put("hero", heroDAO.getHeroById(id));
+            model.put("squads", squadDAO.getAllSquads());
+            return new ModelAndView(model, "hero-form.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 
 }
