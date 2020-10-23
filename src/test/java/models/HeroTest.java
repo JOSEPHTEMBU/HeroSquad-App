@@ -1,20 +1,23 @@
 package models;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.*;
 
-public class HeroTest extends TestCase {
+public class HeroTest {
 
-    @Test
-    public void lookForCorrectInstantiationOfHeroClass_true() throws Exception{
-        Hero hero = setUpNewhero();
-        assertTrue(hero instanceof Hero);
+    @Before
+    public void setUp() throws Exception {
     }
 
-    private Hero setUpNewhero() {
-        return setUpNewhero();
+    @After
+    public void tearDown() throws Exception {
     }
 
 }
+
+
+

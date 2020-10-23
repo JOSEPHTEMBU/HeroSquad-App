@@ -8,6 +8,9 @@ public class Hero {
     private int age;
     private int squadId;
 
+    public static void clearAll() {
+    }
+
     public int getSquadId() {
         return squadId;
     }
