@@ -14,6 +14,7 @@ import static spark.Spark.*;
 
 public class App {
     public static void main(String[] args) {
+        
 
         staticFileLocation("/public");
         Connection conn;
@@ -68,11 +69,7 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         System.out.println(squadDAO.getAllSquads());
-
-
 //        squads
-
-
         get("/addsquad", (req, res) -> {
             return new ModelAndView(model, "squad-form.hbs");
         }, new HandlebarsTemplateEngine());
@@ -102,9 +99,5 @@ public class App {
             model.put("heroes", heroDAO.getAllHeroes());
             return new ModelAndView(model, "squads.hbs");
         }, new HandlebarsTemplateEngine());
-
-
-
     }
-
 }
