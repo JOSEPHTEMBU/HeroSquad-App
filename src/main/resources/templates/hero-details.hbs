@@ -9,6 +9,9 @@
             <p>Weakness: {{hero.weakness}}</p>
             <p>Age: {{hero.age}}</p>
         </div>
+        <a href="/edithero/{{hero.id}}" class="btn btn-secondary">Edit This Hero</a>
+        <a href="/deletehero/{{hero.id}}" class="btn btn-danger">Delete This Hero</a>
+
     {{/if}}
 {{/partial}}
 {{> layout.hbs}}

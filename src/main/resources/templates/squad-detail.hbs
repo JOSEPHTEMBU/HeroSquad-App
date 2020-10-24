@@ -2,13 +2,45 @@
     {{#partial "title"}}{{squad.name}}{{/partial}}
 {{/if}}
 {{#partial "content"}}
-    {{#if squad}}
-        <div class="container">
+    <div class="container row">
+        <div class="col-md-6">
             <p>Name: {{squad.name}}</p>
             <p>Cause: {{squad.cause}}</p>
             <p>Max Size: {{squad.max_size}}</p>
-
+            <a href="/editsquad/{{squad.id}}" class="btn btn-secondary">Edit This Squad</a>
+            <a href="/deletesquad/{{squad.id}}" class="btn btn-danger">Delete This Squad</a>
+            <a href="/addherotosquad/{{squad.id}}" class="btn btn-info">Add Hero To This Squad</a>
         </div>
-    {{/if}}
+        <div class="col-md-6">
+            <h5>Heroes in this squad</h5>
+            {{#if heroes}}
+                <div class="col-md-6">
+                    <h3>Heroes</h3>
+                    <table class="table table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+
+                            <th scope="col">Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each heroes}}
+                            <tr>
+                                <td>{{name}}</td>
+
+                                <td><a href="/heroes/{{id}}" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+
 {{/partial}}
 {{> layout.hbs}}

@@ -56,4 +56,54 @@ public class Sql2oSquadDao implements SquadDao {
             System.out.println(ex);
         }
     }
+
+    @Override
+    public List<Hero> getSquadHeroesById(int id) {
+        String sql = "SELECT * FROM heroes WHERE squadId=:id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetch(Hero.class);
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    @Override
+    public void deleteSquadById(int id) {
+        String sql = "DELETE FROM squads WHERE id=:id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+    @Override
+    public void deleteHeroesInSquad(int id) {
+        String sql = "DELETE FROM heroes WHERE squadId=:id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+    @Override
+    public void updateSquad(int id, String name, String cause, int size) {
+        String sql = "UPDATE squads SET name = :name, cause = :cause, max_size = :size WHERE id=:id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .addParameter("name", name)
+                    .addParameter("cause", cause)
+                    .addParameter("size", size)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
 }

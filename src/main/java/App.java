@@ -54,6 +54,7 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/addhero", (req, res) -> {
+            model.put("squads", squadDAO.getAllSquads());
             model.put("heroes", heroDAO.getAllHeroes());
             return new ModelAndView(model, "hero-form.hbs");
         }, new HandlebarsTemplateEngine());
@@ -63,16 +64,24 @@ public class App {
             String power = req.queryParams("power");
             String weakness = req.queryParams("weakness");
             int age = Integer.parseInt(req.queryParams("age"));
-            Hero newHero = new Hero(name, power, weakness, age, 1);
-            heroDAO.add(newHero);
-            model.put("heroes", heroDAO.getAllHeroes());
-            model.put("squads", squadDAO.getAllSquads());
-            return new ModelAndView(model, "index.hbs");
+            int squadId = Integer.parseInt(req.queryParams("squad"));
+            int squadSize = squadDAO.getSquadById(squadId).getMax_size();
+            int numberOfHeroesInSquad = squadDAO.getSquadHeroesById(squadId).size();
+            if(numberOfHeroesInSquad < squadSize){
+                heroDAO.add(new Hero(name, power, weakness, age, squadId));
+                model.put("squads", squadDAO.getAllSquads());
+                model.put("heroes", squadDAO.getSquadHeroesById(squadId));
+                return new ModelAndView(model, "index.hbs");
+            }else{
+                return new ModelAndView(model, "squad-full.hbs");
+            }
+
         }, new HandlebarsTemplateEngine());
 
         get("/heroes/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             Hero foundHero = heroDAO.getHeroById(id);
+            model.put("squads", squadDAO.getAllSquads());
             model.put("hero", foundHero);
             return new ModelAndView(model, "hero-details.hbs");
         }, new HandlebarsTemplateEngine());
@@ -87,13 +96,14 @@ public class App {
         System.out.println(squadDAO.getAllSquads());
 //        squads
         get("/addsquad", (req, res) -> {
+            model.put("squads", squadDAO.getAllSquads());
             return new ModelAndView(model, "squad-form.hbs");
         }, new HandlebarsTemplateEngine());
 
         post("/addsquad", (req, res) -> {
             String name = req.queryParams("name");
             String cause = req.queryParams("cause");
-            int maxSize = Integer.parseInt(req.queryParams("maxSize"));
+            int maxSize = Integer.parseInt(req.queryParams("size"));
             Squad newSquad = new Squad(name, maxSize, cause);
             squadDAO.add(newSquad);
             model.put("squads", squadDAO.getAllSquads());
@@ -104,6 +114,8 @@ public class App {
         get("/squads/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             Squad foundSquad = squadDAO.getSquadById(id);
+            model.put("squads", squadDAO.getAllSquads());
+            model.put("heroes", squadDAO.getSquadHeroesById(id));
             model.put("squad", foundSquad);
             return new ModelAndView(model, "squad-detail.hbs");
         }, new HandlebarsTemplateEngine());
@@ -114,6 +126,94 @@ public class App {
             model.put("squads", squadDAO.getAllSquads());
             model.put("heroes", heroDAO.getAllHeroes());
             return new ModelAndView(model, "squads.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/edithero/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            model.put("editHero", true);
+            model.put("hero", heroDAO.getHeroById(id));
+            model.put("squads", squadDAO.getAllSquads());
+            System.out.println(squadDAO.getAllSquads());
+            return new ModelAndView(model, "hero-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/deletehero/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            heroDAO.deleteHeroById(id);
+            model.put("heroes", heroDAO.getAllHeroes());
+            model.put("squads", squadDAO.getAllSquads());
+            return new ModelAndView(model, "index.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/edithero/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            String name = req.queryParams("name");
+            String power = req.queryParams("power");
+            String weakness = req.queryParams("weakness");
+            int age = Integer.parseInt(req.queryParams("age"));
+            int squadId = Integer.parseInt(req.queryParams("squad"));
+            heroDAO.updateHero(id, name, power, weakness, age, squadId);
+            model.put("squads", squadDAO.getAllSquads());
+            model.put("squad", squadDAO.getSquadById(heroDAO.getHeroById(id).getSquadId()));
+            model.put("hero", heroDAO.getHeroById(id));
+            return new ModelAndView(model, "hero-detail.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/addherotosquad/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            model.put("addHeroToSquad",true);
+            model.put("squads", squadDAO.getAllSquads());
+            model.put("squad", squadDAO.getSquadById(id));
+            return new ModelAndView(model, "hero-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/addherotosquad/:id", (req, res) -> {
+            int squadId = Integer.parseInt(req.params("id"));
+            String name = req.queryParams("name");
+            String power = req.queryParams("power");
+            String weakness = req.queryParams("weakness");
+            int age = Integer.parseInt(req.queryParams("age"));
+            int squadSize = squadDAO.getSquadById(squadId).getMax_size();
+            int numberOfHeroesInSquad = squadDAO.getSquadHeroesById(squadId).size();
+            if(numberOfHeroesInSquad < squadSize){
+                heroDAO.add(new Hero(name, power, weakness, age, squadId));
+                model.put("squads", squadDAO.getAllSquads());
+                model.put("squad", squadDAO.getSquadById(squadId));
+                model.put("heroes", squadDAO.getSquadHeroesById(squadId));
+                return new ModelAndView(model, "squad-detail.hbs");
+            }else{
+                model.put("addHeroToSquad", true);
+                return new ModelAndView(model, "squad-full.hbs");
+            }
+        }, new HandlebarsTemplateEngine());
+
+        get("/editsquad/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            model.put("editSquad", true);
+            model.put("squad", squadDAO.getSquadById(id));
+            model.put("squads", squadDAO.getAllSquads());
+            return new ModelAndView(model, "squad-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/editsquad/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            String name = req.queryParams("name");
+            String cause = req.queryParams("cause");
+            int size = Integer.parseInt(req.queryParams("size"));
+            squadDAO.updateSquad(id, name, cause, size);
+            model.put("squads", squadDAO.getAllSquads());
+            model.put("squad", squadDAO.getSquadById(id));
+            model.put("heroes", squadDAO.getSquadHeroesById(id));
+            return new ModelAndView(model, "squad-detail.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/deletesquad/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            squadDAO.deleteSquadById(id);
+            squadDAO.deleteHeroesInSquad(id);
+            model.put("heroes", heroDAO.getAllHeroes());
+            model.put("squads", squadDAO.getAllSquads());
+            return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
     }
 }

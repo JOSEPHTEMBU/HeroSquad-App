@@ -1,0 +1,17 @@
+{{#partial "title"}}Heroes{{/partial}}
+{{#partial "content"}}
+
+   <div class="jumbotron">
+       <h1>Squad Full</h1>
+       {{#if addHeroToSquad}}
+           <a href="/squads/{{squad.id}}">Go Back</a>
+       {{else}}
+           <a href="/addhero">Go Back</a>
+       {{/if}}
+
+   </div>
+
+
+
+{{/partial}}
+{{> layout.hbs}}
