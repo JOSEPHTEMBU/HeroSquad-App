@@ -13,23 +13,39 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
-    public static void main(String[] args) {
-        
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
 
+    public static void main(String[] args) {
+
+        port(getHerokuAssignedPort());
         staticFileLocation("/public");
         Connection conn;
 
-        String connectionString = "jdbc:h2:~/HeroesSquad-App.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+//        ---h2 db---
+//        String connectionString = "jdbc:h2:~/HeroesSquad-App.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+//        Sql2o sql2o = new Sql2o(connectionString, "", "");
 
-        Sql2o sql2o = new Sql2o(connectionString, "", "");
+//        ---Local Database---
+        String connectionString = "jdbc:postgresql://localhost:5432/heroapp"; // local db connection string
+        Sql2o sql2o = new Sql2o(connectionString, "moringa", "Access"); // local db sql2o instance
+
+//        ---heroku Database---
+//        String connectionString = "jdbc:postgresql://localhost:5432/heroapp"; // local db connection string
+//        Sql2o sql2o = new Sql2o(connectionString, "moringa", "Access"); // local db sql2o instance
+
+
         conn = sql2o.open();
 
         Sql2oHeroDao heroDAO = new Sql2oHeroDao(sql2o);
         Sql2oSquadDao squadDAO = new Sql2oSquadDao(sql2o);
         Map<String, Object> model = new HashMap<>();
 
-        Squad squad = new Squad("Marvel", 12, "Fighting aliens");
-        squadDAO.add(squad);
 
         get("/", (req, res) -> {
             model.put("heroes", heroDAO.getAllHeroes());

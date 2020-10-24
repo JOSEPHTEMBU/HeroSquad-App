@@ -1,0 +1,1 @@
+web: ./build/install/mulamaheroes/bin/mulamaheroes
